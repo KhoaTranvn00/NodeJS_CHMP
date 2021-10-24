@@ -1,0 +1,62 @@
+extend ../layout/admin
+block head 
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
+block head 
+  block head 
+    title Chi tiết đơn hàng
+block contend
+  h3.mb-2.text-gray-800 CHI TIẾT ĐƠN HÀNG
+  if (!order.isConfirmed)
+    form(action=`/admin/order/${order._id}?_method=PATCH` method="POST")
+      button.btn.btn-primary(type="submit") Duyệt đơn hàng
+  else 
+    .alert.alert-success Đơn hàng đã duyệt
+  // DataTales Example
+  .card.shadow.mb-4.mt-3
+    .card-body
+      .table-responsive
+        p Tổng giá trị đơn hàng: 
+          span.text-primary(style="font-size: 30px")=  order.total.toLocaleString()
+
+        table#dataTable.table.table-bordered(width='100%', cellspacing='0')
+          thead
+            tr
+              th(style="width:50px") #
+              th(style="width:100px") Hình ảnh
+              th Tên 
+              th(style="width:150px") Đơn giá
+              th(style="width:150px") Số lượng
+              th(style="width:150px") Trong kho
+              th(style="width:150px") Thành tiền
+          tbody
+            each item, index in order.products
+              tr
+                td= index+1
+                td.d-flex.justify-content-center
+                  img(src=item.img max-width='50px' height='50px')
+                td
+                  a(href=`/${item.slug}` title= item.name style="color: #858796; display: -webkit-box;height: 50px;overflow: hidden;-webkit-box-orient: vertical;-webkit-line-clamp: 2;")= item.name 
+                td= item.price.toLocaleString()
+                td= item.quantity
+                td= item.product.quantity
+                td= (item.price * item.quantity).toLocaleString()
+                input(type="hidden" name="")
+  
+      h4 Thông tin khách hàng
+      .table-responsive
+            table#dataTable.table.table-bordered(width='100%', cellspacing='0')
+              thead
+                tr
+                  th(style="width:200px") Họ tên
+                  th(style="width:150px") SDT
+                  th Địa chỉ
+              tbody
+                tr 
+                  td= order.name
+                  td= order.phone
+                  td= order.address
+             
+       
+
+
+  

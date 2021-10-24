@@ -1,0 +1,19 @@
+extend ../layout/user.pug
+
+block head 
+  link(rel='stylesheet', href='./asset/css/authen.css')
+  title Đăng nhập
+
+
+block container 
+  .authen-wrap
+    h2.authen-header Đăng nhập
+    if messageAlert
+        .alert(class= isSuccess? 'alert--success': 'alert--fail')= messageAlert
+    form(action='/user/login' method='post')
+      input.form-input(type='text', name='userName', placeholder='Tên tài khoản...' value= values.userName? values.userName : '' )
+      input.form-input(type='password', name='password', placeholder='Mật khẩu...' value= values.password? values.password : '' )
+      button.btn--primary(type='submit') Đăng nhập
+    p.authen-side Bạn chưa có tài khoản? 
+    a.authen-link(href='/user/register')
+      | Nhấn vào đây để đăng kí  

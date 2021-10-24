@@ -1,0 +1,13 @@
+extend ./layout/user.pug
+block head 
+    link(rel='stylesheet', href='/user/asset/css/cart.css')
+    title Thanh toán
+
+block container 
+  div(style="text-align: center; padding: 20px")
+    p(style=" margin: 10px") Bạn đã đặt hàng thàng công
+    a(style="color: var(--primary-color)")(href="/") Quay về trang chủ tiếp tục mua hàng
+
+block script
+  script(src='/user/asset/js/cart.js')
+

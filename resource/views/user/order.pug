@@ -1,0 +1,66 @@
+extend ./layout/user.pug
+block head 
+  link(rel='stylesheet', href='/user/asset/css/cart.css')
+  title Đơn hàng
+
+block container 
+  .grid.wide
+    h2.container-header Đơn đặt hàng
+    if orderList.length > 0
+      .row(style="margin-bottom: 15px")
+        .col.l-6.m-6.c-6
+          table
+            tr
+              th.stt STT
+              th.active Ngày đặt
+              th.quantity Tổng tiền
+              th.quantity(style="width:102px") Tình trạng
+              th.action(style="width:150px") Thao tác
+            
+            each item, index in orderList
+              tr
+                td.item-stt= index + 1
+                td.item-active= item.createdAt.toLocaleString()
+                td.item-quantity= item.total.toLocaleString()
+                td.item-quantity= item.isConfirmed? "Đã duyệt" : "Đang duyệt"
+                
+                td.item-action  
+                  a.item-link(href=`/order/${item._id}`) Chi tiết
+                  if (!item.isConfirmed)
+                    span.item-link.js-btn-delete-order(data-id=item._id style="margin-left:20px") Xóa
+        form.form-delete-order(method='POST')
+          
+          
+        if order
+          .col.l-6.m-6.c-6
+            p Tổng giá trị đơn hàng: 
+              span.total-order= order.total.toLocaleString() + 'đ'
+            table
+              tr
+                th.img H&igrave;nh &#x1EA3;nh
+                th.name T&ecirc;n
+                th.price(style="width:100px") &Dstrok;&#x1A1;n gi&aacute;
+                th.quantity S&#x1ED1; l&#x1B0;&#x1EE3;ng
+                th.total(style="width:100px") Th&agrave;nh ti&#x1EC1;n
+              form(action="" class="form-update-cart" method="POST") 
+                each item, index in order.products
+                  tr
+                    td.item-img
+                      img(src=item.img, alt='')
+                    td.item-name
+                      a.item-link(href='/' + item.slug)= item.name
+                    td.item-price(data-price= item.price)= item.price.toLocaleString() + 'đ'
+                    td.item-quantity
+                      p= item.quantity
+                    td.item-total= (item.price * item.quantity).toLocaleString()
+                        
+    else 
+      .not-cart
+        p.not-cart__text Bạn chưa có đơn đặt hàng
+        a.not-cart__link(href="/") Nhấn vào đây để về trang chủ mua hàng 
+
+  form(action="" class="form-delete-product" method="POST") 
+
+block script
+  script(src='/user/asset/js/order.js')
+

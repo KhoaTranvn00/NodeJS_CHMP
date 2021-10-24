@@ -1,0 +1,22 @@
+extend ../layout/user.pug
+
+block head 
+  link(rel='stylesheet', href='./asset/css/authen.css')
+  title Thông tin người dùng
+
+
+block container 
+  .authen-wrap
+    h2.authen-header Thông tin cá nhân
+    if messageAlert
+        .alert(class= isSuccess? 'alert--success': 'alert--fail')= messageAlert
+    form(action='/user/user?_method=PATCH' method='post')
+      label.form-label(for="") Ho ten
+      input.form-input(type='text', name='name', placeholder='Họ và tên...' value= user.name ? user.name: '')
+      label.form-label(for="") Địa chỉ
+      input.form-input(type='text', name='address', placeholder='Địa chỉ' value= user.address ? user.address: '')
+      label.form-label(for="") Mật khẩu
+      input.form-input(type='password' required=true, name='password', placeholder='Mật khẩu...')
+      label.form-label(for="") Nhập lại mật khẩu
+      input.form-input(type='password' required=true, name='rePassword', placeholder='Nhập lại mật khẩu...')
+      button.btn--primary(type='submit') Cập nhật  

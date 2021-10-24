@@ -1,0 +1,114 @@
+extend ../layout/admin
+block head 
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
+  style 
+    include index.css
+
+block contend
+  h3.mb-2.text-gray-800 SẢN PHẨM
+    span=`(${pagination.totalRows})`
+  a(href='/admin/product/add') Thêm sản phẩm
+  // DataTales Example
+  .card.shadow.mb-4.mt-3
+    .card-body
+      .table-responsive
+        if (productsData.length > 0)
+          .home-page
+              .home-page__num
+                span.text-primary.home-page__num-current= pagination.page
+                spam.home-page__num-total= `/${pagination.totalPages}`
+              .home-page__control
+                a.home-page__control-btn(href=`?page=${pagination.page - 1}`)
+                  i.home-page__control-btn-icon.fas.fa-angle-left
+                a.home-page__control-btn(href=`?page=${pagination.page + 1}`)
+                  i.home-page__control-btn-icon.fas.fa-angle-right
+              form.d-none.d-sm-inline-block.form-inline.mr-auto.ml-md-3.my-2.my-md-0.mw-100.navbar-search(method="GET" action="/admin/product/search")
+                .input-group
+                  input.form-control.bg-light.border-0.small(type='text' name="q" placeholder='Tìm kiếm...', aria-label='Search', aria-describedby='basic-addon2' style="width:300px")
+                  .input-group-append
+                    button.btn.btn-primary(type='button')
+                      i.fas.fa-search.fa-sm
+          table#dataTable.table.table-bordered(width='100%', cellspacing='0')
+            thead
+              tr
+                th(style="width:50px") #
+                th(style="width:100px") Hình ảnh
+                th(style="width:250px") Tên sản phẩm
+                th(style="width:120px") Số lượng
+                  a(href=`?_sort&field=quantity&type=${sort.field == "quantity"? -sort.type: "1"}`) 
+                    i.fas(class = (sort.field == "quantity" ? sort.icon : "fa-sort"))
+                th(style="width:100px") Đã bán
+                  a(href=`?_sort&field=sold&type=${sort.field == "sold"? -sort.type: "1"}`) 
+                    i.fas(class = (sort.field == "sold" ? sort.icon : "fa-sort"))
+                th(style="width:100px") Danh mục
+                th(style="min-width: 201px") Thao tác
+            tbody
+              each product, index in productsData
+                tr
+                  td= (((pagination.page - 1) * pagination.perPage) + (index + 1))
+                  td.d-flex.justify-content-center
+                    img(src=product.img[0] height='50px')
+                  td
+                    p(style="height: 50px;display: -webkit-box;overflow: hidden;margin: 0;-webkit-box-orient: vertical;-webkit-line-clamp: 2;")= product.name 
+                  td.text-center= product.quantity  
+                  td.text-center= product.sold 
+                  td
+                    p(style="height: 50px;display: -webkit-box;overflow: hidden;margin: 0;-webkit-box-orient: vertical;-webkit-line-clamp: 2;")= product.category.name
+                  td(style='width:200px')
+                    div
+                      a.mr-4(href=`/${product.slug}`) Chi tiết
+                      a.mr-4(href=`/admin/product/${product.slug}/edit`) Sửa
+                      a.mr-4(data-toggle='modal', data-target='#exampleModal' href='' data-id=product._id) Xóa
+        else 
+          p Hiện tại chưa có sản phẩm nào
+          a(href='/admin/product/add') Nhấn vào đây để thêm sản phẩm
+
+
+  #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          h5#exampleModalLabel.modal-title Xác nhận xóa sản phẩm
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+        .modal-body
+          | Bạn có chắc chắn muốn xóa sản phẩm này?
+        .modal-footer
+          button.btn.btn-secondary(type='button', data-dismiss='modal') Hủy
+          button#btn-delete.btn.btn-danger(type='button') Xóa
+
+
+
+
+  form#form-delete(method='POST' action='/admin')
+
+  
+
+
+block script
+  script(type='text/javascript').
+    document.addEventListener('DOMContentLoaded', function() {
+      let id 
+      const formDelete = document.getElementById('form-delete')
+      const btnDelete = document.getElementById('btn-delete')
+
+      $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        id = button.data('id') // Extract info from data-* attributes
+      })
+      
+      btnDelete.addEventListener('click', () => {
+        formDelete.action = `/admin/product/${id}?_method=DELETE`;
+        formDelete.submit();
+        //- console.log(formDelete.action)
+      })
+
+
+      if(message) 
+        alert(message)
+
+    })
+
+
+
+                  

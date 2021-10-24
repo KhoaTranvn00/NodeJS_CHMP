@@ -1,0 +1,54 @@
+extend ./layout/user.pug
+block head 
+    link(rel='stylesheet', href='/user/asset/css/cart.css')
+    title Thanh toán
+
+block container 
+  .grid.wide
+    h2.container-header Thanh Toán
+    if user.carts.length > 0
+      .row(style="margin-bottom: 15px")
+        .col.l-5.m-5.c-5
+          
+          form.form-control(method="POST" action="/order/add/")
+            input.form-input(type='text' required=true name='name', placeholder='Tên...' value= user.name? user.name : '' )
+            input.form-input(type='text' required=true name='address', placeholder='Địa chỉ...' value= user.address? user.address : '' )
+            input.form-input(type='text' required=true name='phone', placeholder='SDT...' value= user.phone? user.phone : '' )
+            input.form-input(type='hidden' required=true name='total' value= total)
+            
+            button.btn.btn--update-cart-buy(type='submit') Đặt hàng
+    
+        .col.l-7
+          p Tổng giá trị đơn hàng: 
+            span.total-order= total.toLocaleString() + 'đ'
+          table
+            tr
+              th.img H&igrave;nh &#x1EA3;nh
+              th.name T&ecirc;n
+              th.price(style="width:100px") &Dstrok;&#x1A1;n gi&aacute;
+              th.quantity S&#x1ED1; l&#x1B0;&#x1EE3;ng
+              th.total(style="width:100px") Th&agrave;nh ti&#x1EC1;n
+            form(action="" class="form-update-cart" method="POST") 
+              each item, index in user.carts
+                if item.isActive                  
+                  tr
+                    td.item-img
+                      img(src=item.img, alt='')
+                    td.item-name
+                      a.item-link(href=item.slug)= item.name
+                    td.item-price(data-price= item.price)= item.price.toLocaleString() + 'đ'
+                    td.item-quantity
+                      p= item.quantity
+                    td.item-total= (item.price * item.quantity).toLocaleString()
+                  
+          
+    else 
+      .not-cart
+        p.not-cart__text Bạn chưa có sản phẩm nào trong giỏ hàng 
+        a.not-cart__link(href="/") Nhấn vào đây để về trang chủ mua hàng 
+
+  form(action="" class="form-delete-product" method="POST") 
+
+block script
+  script(src='/user/asset/js/cart.js')
+

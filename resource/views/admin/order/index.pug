@@ -1,0 +1,44 @@
+extend ../layout/admin
+block head 
+  block head 
+    title Quản lý đơn hàng
+block contend
+  h3.mb-2.text-gray-800 DANH SÁCH ĐƠN ĐẶT HÀNG 
+    span= `(${orders.length})`
+  // DataTales Example
+  .card.shadow.mb-4.mt-3
+    .card-body
+      .table-responsive
+        if (orders.length > 0)
+          table#dataTable.table.table-bordered(width='100%', cellspacing='0')
+            thead 
+              tr
+                th.stt(style="width:50px") STT
+                th.active Ngày đặt
+                th.quantity Tổng tiền
+                th.quantity(style="width:200px") Tình trạng
+                th.action(style="width:250px") Thao tác
+            
+            each item, index in orders
+              tr
+                td.item-stt= index + 1
+                td.item-active= item.createdAt.toLocaleString()
+                td.item-quantity= item.total.toLocaleString()
+                td.item-quantity= item.isConfirmed? "Đã duyệt" : "Đang chờ duyệt"
+                
+                td.item-action  
+                  a.badge.badge-primary(href=`/admin/order/${item._id}`) Chi tiết
+                  if (!item.isConfirmed)
+                    span.badge.badge-success.js-btn-delete-order(data-id=item._id style="margin-left:30px") Duyệt đơn hàng
+        else 
+          p Hiện tại chưa có thương hiệu nào
+          a(href='/admin/item/add') Nhấn vào đây để thêm thương hiệu sản phẩm
+
+
+
+
+
+
+
+
+                  

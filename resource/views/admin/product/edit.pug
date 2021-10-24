@@ -1,0 +1,51 @@
+extend ../layout/admin
+block head 
+  block head 
+    title Sửa sản phẩm
+block contend 
+    h1 SỬA SẢN PHẨM
+    form.mt-4#form(method='POST' action=`/admin/product/${product._id}/edit?_method=PUT` enctype="multipart/form-data")
+        if message
+            .alert.alert-success= message
+        .mb-3
+            label(for='name') Tên sản phẩm
+            input#name.form-control(type='text' name='name' value=product.name)
+        .mb-3 
+            label(for='name') Thuộc danh mục
+            select.custom-select(name="category")
+                each category in categoriesData
+                    if (product.category.equals(category._id))
+                        option(value=category._id selected)= category.name
+                    else
+                        option(value=category._id)= category.name
+        .mb-3 
+            label(for='name') Thuộc thương hiệu
+            select.custom-select(name="band")
+                each band in bandsData
+                    if (product.band.equals(band._id))
+                        option(value=band._id selected)= band.name
+                    else
+                        option(value=band._id)= band.name
+        .mb-3
+            label(for='desc') Mô tả sản phẩm
+            textarea#desc.form-control(name="desc", cols="30", rows="3")= product.desc
+        .mb-3
+            label(for='origin') Xuất xứ
+            input#origin.form-control(type='text' name='origin' value=product.origin)
+        .mb-3
+            label(for='imgDetailed') Hình ảnh sản phẩm
+            input#imgDetailed.ml-2(type='file' name='img' multiple)
+        .mb-3
+            label(for='price') Giá sản phẩm
+            input#price.form-control(type='number' name='price' value=product.price)
+        .mb-3
+            label(for='quantity') Số lượng sản phẩm
+            input#quantity.form-control(type='number' name='quantity' value=product.quantity)
+        .mb-3
+            label(for='ingredient') Thành phần
+            textarea#ingredient.form-control(name="ingredient", cols="30", rows="3")= product.ingredient
+        .mb-3
+            label(for='userManual') Hướng dẫn sử dụng
+            textarea#userManual.form-control(name="userManual", cols="30", rows="3")= product.userManual
+        .mb-3
+            button.btn.btn-primary(type='submit') Sửa sản phẩm

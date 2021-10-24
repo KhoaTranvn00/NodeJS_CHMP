@@ -1,0 +1,164 @@
+extend ./layout/user.pug
+block head 
+  link(rel='stylesheet', href='/user/asset/css/product-detail.css')
+  title= productCurrent.name
+block container
+      .grid.wide
+        .row.sm-gutter.app-content
+          // Content
+          .col.l-9.m-12.c-12
+            .grid.wide
+              .product-detail__wrap
+                .row.sm-gutter
+                  .col.l-5.m-5.c-5
+                    .product-detail
+                      .product-detail__img-wrap
+                        .product-detail__img-main
+                          .product-detail__bg(style=`background-image: url('${productCurrent.img[0]}')`)
+                        .product-detail__img-detail
+                         each img, index in productCurrent.img
+                          img.product-detail__img(src=img alt='' class=index===0? 'active': '')
+                         i.product-img__control.product-img__control--left.fas.fa-chevron-left
+                         i.product-img__control.product-img__control--right.fas.fa-chevron-right
+                  .col.l-7.m-7.c-7
+                    .product-detail__content
+                      h2.product-detail__name= productCurrent.name
+                      p.product-detail__sold= productCurrent.sold
+                        span  s&#x1EA3;n ph&#x1EA9;m &dstrok;&atilde; b&aacute;n
+                      p.product-detail__price= productCurrent.price.toLocaleString() + ' đ'
+                      .product-detail__band
+                        p Thương hiệu 
+                            a(href=`/band/${productCurrent.band.slug}`)= productCurrent.band.name
+                            span= `/ Xuất xứ ${productCurrent.origin}` 
+                      a.product-detail__band-link(href=`/band/${productCurrent.band.slug}`)= `Xem thêm về thương hiệu: ${productCurrent.band.name}`
+                      p.product-detail__quantity= `${productCurrent.quantity} sản phẩm có sẵn`
+                      form.product-form(action='' method='post')
+                        label(for='') S&#x1ED1; l&#x1B0;&#x1EE3;ng
+                        input.quantity-input(type='number' name='quantity' value='1')
+                        input.quantity-input(type='text' hidden='true' name='name' value= productCurrent.name)
+                        input.quantity-input(type='number' hidden='true' name='price' value= productCurrent.price)
+                        input.quantity-input(type='text' hidden='true' name='img' value= productCurrent.img[0])
+                        input.quantity-input(type='text' hidden='true' name='slug' value= productCurrent.slug)
+                        br
+                        span.btn.btn--add-cart(data-id= productCurrent._id)
+                          i.fas.fa-cart-plus
+                          | Thêm vào giỏ hàng
+                        span.btn.btn--buy(data-id= productCurrent._id)
+                          | Mua ngay
+                      .product-detail__extend
+                        .product-detail__extend-group
+                          p.product-detail__extend-title
+                            | V&#x1EAD;n chuy&#x1EC3;n
+                          p.product-detail__extend-body
+                            | Mi&#x1EC5;n Ph&iacute; V&#x1EAD;n Chuy&#x1EC3;n Mi&#x1EC5;n Ph&iacute; V&#x1EAD;n Chuy&#x1EC3;n khi &dstrok;&#x1A1;n
+                            | &dstrok;&#x1EA1;t gi&aacute; tr&#x1ECB; t&#x1ED1;i thi&#x1EC3;u
+                        .product-detail__extend-group
+                          p.product-detail__extend-title &Dstrok;&#x1ECF;i tr&#x1EA3;
+                          p.product-detail__extend-body
+                            | &Dstrok;&#x1ED5;i tr&#x1EA3; h&agrave;ng trong v&ograve;ng 05 ng&agrave;y! Th&#x1EDD;i gian v&agrave; ph&iacute;
+                            | giao h&agrave;ng s&#x1EBD; &dstrok;&#x1B0;&#x1EE3;c &#x1B0;&#x1EDB;c t&iacute;nh khi &dstrok;&#x1EB7;t h&agrave;ng.
+              .product-detail__wrap
+                .product-detail__group
+                  h6.product-detail__title M&Ocirc; T&#x1EA2; S&#x1EA2;N PH&#x1EA8;M
+                  pre.product-detail__desc= productCurrent.desc
+                .product-detail__group
+                  h6.product-detail__title Thành phần
+                  pre.product-detail__desc= productCurrent.ingredient            
+                .product-detail__group
+                  h6.product-detail__title Cách sử dụng
+                  pre.product-detail__desc= productCurrent.userManual? productCurrent.userManual : "Nội dung đang được cập nhật"       
+              .product-detail__wrap
+
+                .product-detail__group
+                  h6.product-detail__title
+                    | S&#x1EA3;n ph&#x1EA9;m kh&aacute;c c&#x1EE7;a shop
+                  .product-list.product-list--band
+                    .row.sm-gutter
+                     each product in productsBand
+                      .col.l-3
+                        a(href=`/${product.slug}`).product-item
+                          .product-item__img(style=`background-image: url('${product.img[0]}')`)
+                          .product-item__body
+                            p.product-item__name= product.name
+                            p.product-item__price-new= product.price.toLocaleString() + ' đ'
+                              span.product-item__sold= `Đã bán ${product.sold}`
+                          .product-item__favourite
+                            i.fas.fa-check
+                            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Y&ecirc;u th&iacute;ch
+                    i.product-img__control.product-img__control-band.product-img__control--left.fas.fa-chevron-left
+                    i.product-img__control.product-img__control-band.product-img__control--right.fas.fa-chevron-right
+          
+                .product-detail__group
+                  h6.product-detail__title
+                    | Sản phẩm khác cùng danh mục
+                  .product-list.product-list--category
+                    .row.sm-gutter
+                     each product in productsCategory
+                      .col.l-3
+                        a(href=`/${product.slug}`).product-item
+                          .product-item__img(style=`background-image: url('${product.img[0]}')`)
+                          .product-item__body
+                            p.product-item__name= product.name
+                            p.product-item__price-new= product.price.toLocaleString() + ' đ'
+                              span.product-item__sold= `Đã bán ${product.sold}`
+                          .product-item__favourite
+                            i.fas.fa-check
+                            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Y&ecirc;u th&iacute;ch
+                    i.product-img__control.product-img__control-category.product-img__control--left.fas.fa-chevron-left
+                    i.product-img__control.product-img__control-category.product-img__control--right.fas.fa-chevron-right
+          .col.l-3.m-0.c-0
+            .sidebar
+              .sidebar__group
+                h6.sidebar__title -- CH&#x1EA4;T L&#x1AF;&#x1EE2;NG CHO T&#x1EA4;T C&#x1EA2; --
+                .sidebar-item__group
+                  .sidebar-item__icon
+                    i.fas.fa-heart
+                  .sidebar-item__content
+                    p.sidebar-item__title M&#x1EF8; PH&#x1EA8;M 100% CH&Iacute;NH H&Atilde;NG
+                    p.sidebar-item__desc
+                      | Ch&#x1EA5;t l&#x1B0;&#x1EE3;ng s&#x1EA3;n ph&#x1EA9;m lu&ocirc;n &dstrok;&#x1B0;&#x1EE3;c ch&#x1EE9;ng nh&#x1EAD;n b&#x1EB1;ng s&#x1EF1; tin c&#x1EAD;y
+                      | c&#x1EE7;a Kh&aacute;ch H&agrave;ng su&#x1ED1;t nhi&#x1EC1;u n&abreve;m qua
+                .sidebar-item__group
+                  .sidebar-item__icon
+                    i.fas.fa-gift
+                  .sidebar-item__content
+                    p.sidebar-item__title LU&Ocirc;N &Dstrok;&#x1AF;&#x1EE2;C T&Iacute;CH &Dstrok;I&#x1EC2;M
+                    p.sidebar-item__desc
+                      | &Dstrok;&#x1A1;n h&agrave;ng t&#x1EEB; 100k=1 &dstrok;i&#x1EC3;m 10 &dstrok;i&#x1EC3;m nh&#x1EAD;n voucher 100k
+                .sidebar-item__group
+                  .sidebar-item__icon
+                    i.fas.fa-truck
+                  .sidebar-item__content
+                    p.sidebar-item__title MI&#x1EC4;N PH&Iacute; GIAO H&Agrave;NG
+                    p.sidebar-item__desc
+                      | &Dstrok;&#x1A1;n h&agrave;ng tr&ecirc;n 200k n&#x1ED9;i th&agrave;nh HCM
+                .sidebar-item__group
+                  .sidebar-item__icon
+                    i.fas.fa-birthday-cake
+                  .sidebar-item__content
+                    p.sidebar-item__title TRI &Acirc;N KH&Aacute;CH H&Agrave;NG
+                    p.sidebar-item__desc
+                      | V&#x1EDB;i c&aacute;c ch&#x1B0;&#x1A1;ng tr&igrave;nh khuy&#x1EBF;n m&atilde;i, c&aacute;c s&#x1EF1; ki&#x1EC7;n &amp; qu&agrave; t&#x1EB7;ng
+                      | &dstrok;&#x1EB7;c bi&#x1EC7;t v&ocirc; c&ugrave;ng h&#x1EA5;p d&#x1EAB;n
+              .sidebar__group
+                h6.sidebar__title -- Danh m&#x1EE5;c s&#x1EA3;n ph&#x1EA9;m --
+                .sidebar-item
+                  .sidebar-item__content
+                   each category, index in categoriesData 
+                    a.sidebar-item__category(href=`/category/${category.slug}`)= category.name
+              .sidebar__group
+                h6.sidebar__title
+                  | -- S&#x1EA3;n ph&#x1EA9;m c&ugrave;ng lo&#x1EA1;i b&aacute;n ch&#x1EA1;y --
+                each item in productsCategoryBestSell
+                  .sidebar-item.sidebar-product
+                    a.sidebar-product__bg(href='' style=`background-image: url(${item.img[0]})`)
+                    .sidebar-product__content
+                      a.sidebar-product__name(href= `/${item.slug}`)= item.name
+                      div.sidebar-product__bt
+                        p.sidebar-product__price= item.price.toLocaleString() + " đ"
+                        span(style="float: right")= `Đã bán ${item.sold}`
+                
+
+block script
+  script(src='/user/asset/js/productDetail.js')
+

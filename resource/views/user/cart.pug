@@ -1,0 +1,54 @@
+extend ./layout/user.pug
+block head 
+  link(rel='stylesheet', href='/user/asset/css/cart.css')
+  title Giỏ hàng
+
+block container 
+  .grid.wide
+    h2.container-header Gi&#x1ECF; h&agrave;ng
+    if user.carts.length > 0
+      .row
+        .col.l-10
+          table
+            tr
+              th.stt STT
+              th.active Chọn
+              th.img H&igrave;nh &#x1EA3;nh
+              th.name T&ecirc;n
+              th.price &Dstrok;&#x1A1;n gi&aacute;
+              th.quantity S&#x1ED1; l&#x1B0;&#x1EE3;ng
+              th.quantity Kho có
+              th.total Th&agrave;nh ti&#x1EC1;n
+              th.action Thao t&aacute;c
+            form(action="" class="form-update-cart" method="POST") 
+              each item, index in user.carts
+                tr
+                  td.item-stt= index + 1
+                  td.item-active
+                    input.item-active(type="checkbox" name=`active-${item.product._id}` checked=item.isActive)
+                  td.item-img
+                    img(src=item.img, alt='')
+                  td.item-name
+                    a.item-link(href=item.slug)= item.name
+                  td.item-price(data-price= item.price)= item.price.toLocaleString() + 'đ'
+                  td.item-quantity
+                    input.item-input(type='number' name=`quantity-${item.product._id}` value= item.quantity min="0" max=item.product.quantity required="true")
+                  td.item-quantity= item.product.quantity
+                  td.item-total= (item.price * item.quantity).toLocaleString()
+                  td.item-action
+                    div.item-link.item-delete(data-id=item.product._id) Xóa
+            
+        .col.l-2.m-2.c-2
+          .form-control
+            button.btn.btn--update-cart Luu gio hang
+            button.btn.btn--update-cart-buy Mua hang
+    else 
+      .not-cart
+        p.not-cart__text Bạn chưa có sản phẩm nào trong giỏ hàng 
+        a.not-cart__link(href="/") Nhấn vào đây để về trang chủ mua hàng 
+  
+  form(action="" class="form-delete-product" method="POST") 
+
+block script
+  script(src='/user/asset/js/cart.js')
+

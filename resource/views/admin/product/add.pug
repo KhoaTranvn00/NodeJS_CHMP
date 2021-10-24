@@ -1,0 +1,45 @@
+extend ../layout/admin
+block head 
+  block head 
+    title Thêm sản phẩm
+block contend 
+    h1 THÊM SẢN PHẨM
+    if message
+        .alert.alert-success= message
+    form.mt-4#form(method='POST' action='/admin/product/add' enctype="multipart/form-data")
+        .mb-3
+            label(for='name') Tên sản phẩm
+            input#name.form-control(type='text' name='name')
+        .mb-3 
+            label(for='name') Thuộc danh mục
+            select.custom-select(name="category")
+                each category in categoriesData
+                    option(value=category._id)= category.name
+        .mb-3 
+            label(for='name') Thuộc thương hiệu
+            select.custom-select(name="band")
+                each band in bandsData
+                    option(value=band._id)= band.name
+        .mb-3
+            label(for='desc') Mô tả sản phẩm
+            textarea#desc.form-control(name="desc", cols="30", rows="6") 
+        .mb-3
+            label(for='origin') Xuất xứ
+            input#origin.form-control(type='text' name='origin')
+        .mb-3
+            label(for='imgDetailed') Hình ảnh sản phẩm
+            input#imgDetailed.ml-2(type='file' name='img' multiple)
+        .mb-3
+            label(for='price') Giá sản phẩm
+            input#price.form-control(type='number' name='price')
+        .mb-3
+            label(for='quantity') Số lượng sản phẩm
+            input#quantity.form-control(type='number' name='quantity')
+        .mb-3
+            label(for='ingredient') Thành phần
+            textarea#ingredient.form-control(name="ingredient", cols="30", rows="6") 
+        .mb-3
+            label(for='userManual') Hướng dẫn sử dụng
+            textarea#userManual.form-control(name="userManual", cols="30", rows="6") 
+        .mb-3
+            button.btn.btn-primary(type='submit') Thêm sản phẩm

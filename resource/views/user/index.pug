@@ -1,0 +1,100 @@
+extend ./layout/user.pug
+block head 
+  title NKShop - Trang chủ
+
+block container
+    .grid.wide
+      .row.sm-gutter.app-content
+        .col.l-2.m-0.c-0
+          .category
+            .category-header
+              h4 Danh m&#x1EE5;c
+            .category-body
+              ul.category-list
+                each category of categoriesData 
+                  li.category-item
+                    a.category-item__link(href=`/category/${category.slug}`)= category.name
+          .category
+            .category-header
+              h4 Thương hiệu
+            .category-body
+              ul.category-list
+                each band of bandsData 
+                  li.category-item
+                    a.category-item__link(href=`/band/${band.slug}`)= band.name
+        .col.l-10.m-12.c-12
+          .home-filter.hide-on-tb-mb
+            span.home-filter__label
+              | S&#x1EAF;p x&#x1EBF;p theo
+            a(href="?_sort=").btn.home-filter__btn(class= filter==""? "home-filter__btn--active": "") Ph&#x1ED5; bi&#x1EBF;n
+            a(href="?_sort&filed=createdAt&type=desc").btn.home-filter__btn(class= filter=="createdAt"? "home-filter__btn--active": "") M&#x1EDB;i nh&#x1EA5;t
+            a(href="?_sort&filed=sold&type=desc").btn.home-filter__btn(class= filter=="sold"? "home-filter__btn--active": "") B&aacute;n ch&#x1EA1;y
+            .select-input
+              label(for='') Gi&aacute;
+              i.select-input__icon.fas.fa-angle-down
+              .select-input__option
+                a.select-input__link(href='?_sort&filed=price&type=desc') Gi&aacute; cao &dstrok;&#x1EBF;n th&#x1EA5;p
+                a.select-input__link(href='?_sort&filed=price&type=asc') Gi&aacute; th&#x1EA5;p &dstrok;&#x1EBF;n cao
+            .home-page
+              .home-page__num
+                span.home-page__num-current= pagination.page
+                spam.home-page__num-total= `/${pagination.totalPages}`
+              .home-page__control
+                a.home-page__control-btn(href=`?page=${pagination.page - 1}`)
+                  i.home-page__control-btn-icon.fas.fa-angle-left
+                a.home-page__control-btn(href=`?page=${pagination.page + 1}`)
+                  i.home-page__control-btn-icon.fas.fa-angle-right
+          .home-filter-tb-mb.hide-on-pc
+            a.home-filter-tb-mb__link(href='') Li&ecirc;n quan
+            a.home-filter-tb-mb__link.home-filter-tb-mb__link--active(href='') M&#x1EDB;i nh&#x1EA5;t
+            a.home-filter-tb-mb__link(href='') B&aacute;n ch&#x1EA1;y
+            a.home-filter-tb-mb__link(href='') Gi&aacute;
+          .category-on-tb-mb.hide-on-pc
+            ul.category-on-tb-mb__list
+              li.category-on-tb-mb__item
+                a.category-on-tb-mb__item-link(href='') Thi&#x1EBF;t b&#x1ECB; v&abreve;n ph&ograve;ng
+              li.category-on-tb-mb__item
+                a.category-on-tb-mb__item-link(href='') D&#x1EE5;ng c&#x1EE5; v&agrave; nh&agrave; b&#x1EBF;p
+              li.category-on-tb-mb__item
+                a.category-on-tb-mb__item-link(href='') Qu&#x1EA7;n &aacute;o, &aacute;o kho&aacute;c
+              li.category-on-tb-mb__item
+                a.category-on-tb-mb__item-link(href='') Thi&#x1EBF;t b&#x1ECB; v&abreve;n ph&ograve;ng
+              li.category-on-tb-mb__item
+                a.category-on-tb-mb__item-link(href='') D&#x1EE5;ng c&#x1EE5; v&agrave; nh&agrave; b&#x1EBF;p
+              li.category-on-tb-mb__item
+                a.category-on-tb-mb__item-link(href='') Qu&#x1EA7;n &aacute;o, &aacute;o kho&aacute;c
+          .product
+            if productsData.length > 0
+              .row.sm-gutter
+                each product of productsData
+                  .col.l-2-4.m-4.c-6
+                    a.product-item(href=`/${product.slug}`)
+                      .product-item__img(style=`background-image: url(${product.img[0]});`)
+                      .product-item__body
+                        h4.product-item__name= product.name
+                        .product-item__price
+                          span.product-item__price-new= product.price.toLocaleString() + "đ"
+                        .product-item__action
+                          .product-item__like
+                            i.product-item__rating-star.fas.fa-star
+                            i.product-item__rating-star.fas.fa-star
+                            i.product-item__rating-star.fas.fa-star
+                            i.product-item__rating-star.fas.fa-star
+                            i.product-item__rating-star.fas.fa-star
+                          .product-item__rating
+                          .product-item__sold= product.sold + ' đã bán'
+                        .product-item__origin
+                          span.product-item__origin-brand= product.band.name
+                          span.product-item__origin-from= product.origin
+                      .product-item__self-off
+                        .product-item__self-off-present 50%
+                        .product-item__self-off-label Gi&#x1EA3;m
+                      .product-item__favourite
+                        i.fas.fa-check
+                        |                                             Y&ecirc;u th&iacute;ch
+            else 
+              .no-product
+                p Không có sản phẩm phù hợp
+                a(href="/") Nhấn vào đây để về trang chủ 
+          .pagination
+            

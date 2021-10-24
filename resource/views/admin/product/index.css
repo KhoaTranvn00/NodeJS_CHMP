@@ -1,0 +1,44 @@
+#table-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.home-page {
+	margin-left: auto;
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 10px;
+	float: right;
+}
+
+.home-page__num {
+	font-size: 15px;
+	display: flex;
+	align-items: center;
+	margin-right: 12px;
+}
+
+.home-page__num-current {
+	color: primary;
+}
+
+.home-page__num-total {
+	color: var(--text-color);
+}
+
+.home-page__control {
+	display: flex;
+}
+
+.home-page__control-btn {
+	background: var(--white-color);
+	text-decoration: none;
+	color: var(--text-color);
+	padding: 7px 13px;
+	border: 1px solid #eee;
+}
+
+.home-page__control-btn + .home-page__control-btn {
+	border-left: 1px solid #eee;
+}

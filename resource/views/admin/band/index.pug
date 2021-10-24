@@ -1,0 +1,88 @@
+extend ../layout/admin
+block head 
+  block head 
+    title Thương hiệu sản phẩm
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
+block contend
+  h3.mb-2.text-gray-800 Thương hiệu sản phẩm
+    span=`(${bands.length})`
+  a(href='/admin/band/add') Thêm Thương hiệu sản phẩm
+  // DataTales Example
+  .card.shadow.mb-4.mt-3
+    .card-body
+      .table-responsive
+        if (bands.length > 0)
+          table#dataTable.table.table-bordered(width='100%', cellspacing='0')
+            thead
+              tr
+                th(style="width:50px") #
+                th(style="width:100px") Hình ảnh
+                th(style="width:250px") Tên DM
+                //- th(style="width:300px") Mô tả
+                th Thao tác
+            tbody
+              each band, index in bands
+                tr
+                  td= index+1
+                  td.d-flex.justify-content-center
+                    img(src=band.img height='26px' max-width='150px')
+                  td= band.name 
+                  //- td= band.desc
+                  td(style='width:200px')
+                    a.mr-4(href=`/admin/band/${band.slug}/detail`) Chi tiết
+                    a.mr-4(href=`/admin/band/${band.slug}/edit`) Sửa
+                    a.mr-4(data-toggle='modal', data-target='#exampleModal' href='' data-id=band._id) Xóa
+        else 
+          p Hiện tại chưa có thương hiệu nào
+          a(href='/admin/band/add') Nhấn vào đây để thêm thương hiệu sản phẩm
+
+
+  #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          h5#exampleModalLabel.modal-title Xác nhận xóa thương hiệu sản phẩm
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+        .modal-body
+          | Bạn có chắc chắn muốn xóa thương hiệu sản phẩm này?
+        .modal-footer
+          button.btn.btn-secondary(type='button', data-dismiss='modal') Hủy
+          button#btn-delete.btn.btn-danger(type='button') Xóa
+
+
+
+
+  form#form-delete(method='POST' action='/admin')
+
+  
+
+
+block script
+  
+  script(type='text/javascript').
+    document.addEventListener('DOMContentLoaded', function() {
+      let id 
+      const formDelete = document.getElementById('form-delete')
+      const btnDelete = document.getElementById('btn-delete')
+
+      $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        id = button.data('id') // Extract info from data-* attributes
+      })
+      
+      btnDelete.addEventListener('click', () => {
+        formDelete.action = `/admin/band/${id}?_method=DELETE`;
+        formDelete.submit();
+        //- console.log(formDelete.action)
+      })
+
+
+      if(message) 
+        alert(message)
+
+    })
+
+
+
+                  

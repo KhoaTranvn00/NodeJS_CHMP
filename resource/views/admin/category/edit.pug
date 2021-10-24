@@ -1,0 +1,20 @@
+extend ../layout/admin
+block head 
+  block head 
+    title Sửa danh mục sản phẩm
+block contend 
+    h1 SỬA DANH MỤC
+    form.mt-4#form(method='POST' action=`/admin/category/${category._id}/edit?_method=PUT` enctype="multipart/form-data")
+        if message
+            .alert.alert-success= message
+        .mb-3
+            label(for='name') Tên danh mục
+            input#name.form-control(type='text' name='name' value=category.name)
+        .mb-3
+            label(for='desc') Mô tả danh mục
+            input#desc.form-control(type='text' name='desc' value=category.desc)
+        .mb-3
+            label(for='img') Hình ảnh danh mục
+            input#img.ml-2(type='file' name='img')
+        .mb-3
+            button.btn.btn-primary(type='submit') Sửa danh mục

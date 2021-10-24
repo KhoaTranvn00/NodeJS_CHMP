@@ -1,0 +1,21 @@
+extend ../layout/user.pug
+
+block head 
+  link(rel='stylesheet', href='./asset/css/authen.css')
+  title Đăng kí
+
+
+block container 
+  .authen-wrap
+    h2.authen-header T&#x1EA1;o t&agrave;i kho&#x1EA3;n
+    if messageAlert
+        .alert(class= isSuccess? 'alert--success': 'alert--fail')= messageAlert
+    form(action='/user/register' method='post')
+      input.form-input(type='text', name='name', placeholder='Họ và tên...' value= values.name ? values.name: '')
+      input.form-input(type='text', name='userName', placeholder='Tên tài khoản...' value= values.userName ? values.userName: '')
+      input.form-input(type='password', name='password', placeholder='Mật khẩu...' value= values.password ? values.password: '')
+      input.form-input(type='password', name='rePassword', placeholder='Nhập lại mật khẩu...' value= values.rePassword ? values.rePassword: '')
+      button.btn--primary(type='submit') &Dstrok;&abreve;ng k&iacute;
+    p.authen-side B&#x1EA1;n &dstrok;&atilde; c&oacute; t&agrave;i kho&#x1EA3;n r&#x1ED3;i?
+    a.authen-link(href='/user/login')
+      | Nh&#x1EA5;n v&agrave;o &dstrok;&acirc;y &dstrok;&#x1EC3; &dstrok;&abreve;ng nh&#x1EAD;p   

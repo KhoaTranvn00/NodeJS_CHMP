@@ -1,0 +1,169 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible', content='IE=edge')
+  meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+  meta(name='description', content='')
+  meta(name='author', content='')
+  // Custom fonts for this template
+  link(href='/asset/vendor/fontawesome-free/css/all.min.css', rel='stylesheet', type='text/css')
+  link(href='/asset/https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i', rel='stylesheet')
+  // Custom styles for this template
+  link(href='/asset/css/sb-admin-2.min.css', rel='stylesheet')
+  block head
+  title Admin
+// Page Wrapper
+#wrapper
+  // Sidebar
+  ul#accordionSidebar.navbar-nav.bg-gradient-primary.sidebar.sidebar-dark.accordion
+    // Sidebar - Brand
+    a.sidebar-brand.d-flex.align-items-center.justify-content-center(href='/asset/index.html')
+      .sidebar-brand-icon.rotate-n-15
+        i.fas.fa-laugh-wink
+      .sidebar-brand-text.mx-3
+        | NKShop
+    // Divider
+    hr.sidebar-divider.my-0
+    // Nav Item - Dashboard
+    li.nav-item.active
+      a.nav-link(href='/asset/index.html')
+        i.fas.fa-fw.fa-tachometer-alt
+        span Trang chủ
+    // Divider
+    hr.sidebar-divider
+    // Heading
+    .sidebar-heading
+      | Quản lý
+    // Nav Item - Pages Collapse Menu
+    li.nav-item
+      a.nav-link(href='/admin/category') Danh mục
+    // Nav Item - Utilities Collapse Menu
+    li.nav-item
+      a.nav-link(href='/admin/band') Thương hiệu
+    li.nav-item
+      a.nav-link(href='/admin/product') Sản phẩm
+    li.nav-item
+      a.nav-link(href='/admin/order') Đơn hàng
+    // Divider
+    hr.sidebar-divider
+    // Heading
+    // Sidebar Toggler (Sidebar)
+    .text-center.d-none.d-md-inline
+      button#sidebarToggle.rounded-circle.border-0
+    // Sidebar Message
+  // End of Sidebar
+  // Content Wrapper
+  #content-wrapper.d-flex.flex-column
+    // Main Content
+    #content
+      // Topbar
+      nav.navbar.navbar-expand.navbar-light.bg-white.topbar.mb-4.static-top.shadow
+        // Sidebar Toggle (Topbar)
+        button#sidebarToggleTop.btn.btn-link.d-md-none.rounded-circle.mr-3
+          i.fa.fa-bars
+        // Topbar Search
+        form.d-none.d-sm-inline-block.form-inline.mr-auto.ml-md-3.my-2.my-md-0.mw-100.navbar-search
+          .input-group
+            input.form-control.bg-light.border-0.small(type='text', placeholder='Search for...', aria-label='Search', aria-describedby='basic-addon2')
+            .input-group-append
+              button.btn.btn-primary(type='button')
+                i.fas.fa-search.fa-sm
+        // Topbar Navbar
+        ul.navbar-nav.ml-auto
+          if adminCurrent
+            // Nav Item - Search Dropdown (Visible Only XS)
+            li.nav-item.dropdown.no-arrow.d-sm-none
+              a#searchDropdown.nav-link.dropdown-toggle(href='/asset/#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                i.fas.fa-search.fa-fw
+              // Dropdown - Messages
+              .dropdown-menu.dropdown-menu-right.p-3.shadow.animated--grow-in(aria-labelledby='searchDropdown')
+                form.form-inline.mr-auto.w-100.navbar-search
+                  .input-group
+                    input.form-control.bg-light.border-0.small(type='text', placeholder='Search for...', aria-label='Search', aria-describedby='basic-addon2')
+                    .input-group-append
+                      button.btn.btn-primary(type='button')
+                        i.fas.fa-search.fa-sm
+            // Nav Item - Alerts
+            li.nav-item.dropdown.no-arrow.mx-1
+              a#alertsDropdown.nav-link.dropdown-toggle(href='/asset/#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                i.fas.fa-bell.fa-fw
+                // Counter - Alerts
+                span.badge.badge-danger.badge-counter= unreadNotice
+              // Dropdown - Alerts
+              .dropdown-list.dropdown-menu.dropdown-menu-right.shadow.animated--grow-in(aria-labelledby='alertsDropdown')(style="max-height: 400px;overflow-y: auto;")
+                h6.dropdown-header
+                  | Thông báo
+                each item in adminCurrent.notifications 
+                  a.dropdown-item.d-flex.align-items-center(href=`/admin/order/${item.order}` style=`background: ${item.isWatched? '' : 'rgb(103 105 198 / 30%)'}`)
+                    .mr-3
+                      .icon-circle.bg-success
+                        i.fas.fa-donate.text-white
+                    div
+                      .small.text-gray-500= item.createdAt.toLocaleString()
+                      div= item.title
+                //- a.dropdown-item.text-center.small.text-gray-500(href='/asset/#') Show All Alerts
+            // Nav Item - Messages
+            
+            li.nav-item.dropdown.no-arrow
+              a#userDropdown.nav-link.dropdown-toggle(href='/asset/#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                span.mr-2.d-none.d-lg-inline.text-gray-600.small=adminCurrent.name
+                img.img-profile.rounded-circle(src='/asset/img/undraw_profile.svg')
+              // Dropdown - User Information
+              .dropdown-menu.dropdown-menu-right.shadow.animated--grow-in(aria-labelledby='userDropdown')
+                a.dropdown-item(href='/asset/#')
+                  i.fas.fa-user.fa-sm.fa-fw.mr-2.text-gray-400
+                  |                                     Hồ sơ
+                a.dropdown-item(href='/asset/#')
+                  i.fas.fa-cogs.fa-sm.fa-fw.mr-2.text-gray-400
+                  |                                     Cài đặt
+                
+                .dropdown-divider
+                a.dropdown-item(href='/admin/logout', data-toggle='modal', data-target='#logoutModal')
+                  i.fas.fa-sign-out-alt.fa-sm.fa-fw.mr-2.text-gray-400
+                  |                                     Đăng xuất
+          else 
+            li.nav-item.d-flex.flex-column.justify-content-center
+              a.d-inline-block(href='/admin/login') Đăng nhập
+        
+      // End of Topbar
+      // Begin Page Content
+      .container-fluid
+        block contend
+      // /.container-fluid
+    // End of Main Content
+    // Footer
+    footer.sticky-footer.bg-white
+      .container.my-auto
+        .copyright.text-center.my-auto
+          span Copyright &copy; Your Website 2021
+    // End of Footer
+  // End of Content Wrapper
+// End of Page Wrapper
+// Scroll to Top Button
+a.scroll-to-top.rounded(href='/asset/#page-top')
+  i.fas.fa-angle-up
+// Logout Modal
+#logoutModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#exampleModalLabel.modal-title Xác nhận đăng xuất
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') &times;
+      .modal-body Bạn có chắc chắn muốn đăng xuất?
+      .modal-footer
+        button.btn.btn-secondary(type='button', data-dismiss='modal') Hủy
+        a.btn.btn-primary(href='/admin/logout') Đăng xuất
+// Bootstrap core JavaScript
+script(src='/asset/vendor/jquery/jquery.min.js')
+script(src='/asset/vendor/bootstrap/js/bootstrap.bundle.min.js')
+// Core plugin JavaScript
+script(src='/asset/vendor/jquery-easing/jquery.easing.min.js')
+// Custom scripts for all pages
+script(src='/asset/js/sb-admin-2.min.js')
+// Page level plugins
+script(src='/asset/vendor/chart.js/Chart.min.js')
+// Page level custom scripts
+script(src='/asset/js/demo/chart-area-demo.js')
+script(src='/asset/js/demo/chart-pie-demo.js')
+block script
