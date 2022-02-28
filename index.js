@@ -4,7 +4,7 @@ require("dotenv").config();
 const methodOverride = require("method-override");
 const bodyParser = require("body-parser");
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const db = require("./config/db/index");
 const route = require("./resource/routes/index.route");
