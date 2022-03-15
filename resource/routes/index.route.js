@@ -5,5 +5,4 @@ function route(app) {
 	app.use("/admin", adminRouter);
 	app.use("/", userRouter);
 }
-
 module.exports = route;
